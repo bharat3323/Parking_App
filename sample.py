@@ -4,26 +4,6 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from tkcalendar import DateEntry
 
-class SlotBookingApp(tk.Tk):
-    def __init__(self):
-        super().__init__()
-        self.title("Slot Booking")
-        self.geometry("1600x1600")
-        self.config(bg="lightblue")
-
-        # Add a label to the window
-        self.label = tk.Label(self, text="Parking Area", font=("Arial", 50, "bold"), bg="white")
-        self.label.pack(pady=20)
-
-        # Add buttons for parking slots
-        for i in range(10):
-            button = tk.Button(self, text=f"parking NO {i+1}", command=self.book_slot, width=15, height=10)
-            button.pack()
-            button.place(x=30+150*(i%3), y=150+230*(i//3))
-
-    def book_slot(self):
-        messagebox.showinfo("Booking", "Slot booked successfully!")
-
 class ParkingSystem(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -85,13 +65,6 @@ class ParkingSystem(tk.Tk):
         btn2 = tk.Button(login_sub_frame, width=30, pady=7, text="Forgot Password?", font=('ariel', 11),
                          bg='#73A4FF', border=0, fg='blue', cursor='hand2')
         btn2.place(x=120, y=460)
-
-        label4 = tk.Label(login_sub_frame, text="------------------   or   -----------------", bg='#73A4FF',
-                          fg='black')
-        label4.place(x=150, y=490)
-
-        btn3 = tk.Button(login_sub_frame, image=self.loginbtn, border=0, cursor='hand2', bg='#73A4FF')
-        btn3.place(x=150, y=520)
 
     def login(self):
         # Get username and password entered by the user
@@ -176,10 +149,25 @@ class ParkingSystem(tk.Tk):
 
     def go_to_slot_booking(self):
         self.parking_app_frame.pack_forget()
-        slot_booking_app = SlotBookingApp()
-        slot_booking_app.mainloop()
+        self.create_slotbooking()
 
+    def create_slotbooking(self):
+        self.slotbooking_frame = Frame(self, width=1800, height=800)
+        self.slotbooking_frame.pack(fill='both', expand=True)
+        self.slotbooking_frame.place(x=0, y=0)
 
+        self.label = tk.Label(self, text="Parking Area", font=("Arial", 50, "bold"))
+        self.label.pack(pady=20)
+
+        # Add buttons for parking slots
+        for i in range(10):
+            button = tk.Button(self, text=f"parking NO {i+1}", command=self.book_slot, width=15, height=10)
+            button.pack()
+            button.place(x=30+150*(i%3), y=150+230*(i//3))
+
+    def book_slot(self):
+        messagebox.showinfo("Booking", "Slot booked successfully!")
+        
 if __name__ == "__main__":
     app = ParkingSystem()
     app.mainloop()
